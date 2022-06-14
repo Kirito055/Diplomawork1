@@ -240,7 +240,8 @@ def textEditor(request, slug):
                               )
 
             mystdout = mystdout.getvalue().replace("\n", "")
-            if test.output_data.strip() != mystdout.strip():
+            if float(test.output_data.strip()) != float(mystdout.strip()):
+
                 return render(request, 'onlineCoding/textEditor.html',
                               {
                                   'first_test': first_test,
@@ -318,8 +319,8 @@ def textEditor(request, slug):
 
         mystdout = mystdout.getvalue().replace("\n", "")
         test = Tests.objects.all().filter(task=task).first()
-        if test.output_data.strip() != mystdout.strip():
-            print(1)
+        if float(test.output_data.strip()) != float(mystdout.strip()):
+            print(mystdout.strip())
             return render(request, 'onlineCoding/textEditor.html',
                           {
                               'task': task,
@@ -387,6 +388,8 @@ def leaderboard(request):
 
 def courses(request):
     courses = Course.objects.all()
+    for i in courses:
+        i.description = i.description[0:120] + "..."
     return render(request, 'onlineCoding/courses.html', {'courses': courses})
 
 
